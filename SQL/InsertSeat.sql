@@ -2,6 +2,13 @@ DROP SEQUENCE seq_seat_idx;
 
 alter table seats modify(user_idx NULL);
 
+
+-- Seats-Price column
+-- 1~10ë²ˆ ì¢Œì„ 2000ì›
+-- 11~20ë²ˆ ì¢Œì„ 4000ì›
+-- 21~30ë²ˆ ì¢Œì„ 5000ì›
+-- 31~35ë²ˆ ì¢Œì„ 7000ì›
+
 CREATE SEQUENCE seq_seat_idx
     START WITH 1
     INCREMENT BY 1
@@ -10,7 +17,7 @@ CREATE SEQUENCE seq_seat_idx
 
 DECLARE
 BEGIN
-    -- ÁÂ¼® µ¥ÀÌÅÍ Ãß°¡ (2000¿ø °¡°İÀ¸·Î 10°³)
+    -- ì¢Œì„ ë°ì´í„° ì¶”ê°€ (2000ì› ê°€ê²©ìœ¼ë¡œ 10ê°œ)
     FOR i IN 1..10 LOOP
         INSERT INTO seats (seat_idx, seat_start_time, seat_end_time, seat_price, waiting_user, user_idx)
         VALUES (
@@ -23,7 +30,7 @@ BEGIN
         );
     END LOOP;
 
-    -- ÁÂ¼® µ¥ÀÌÅÍ Ãß°¡ (4000¿ø °¡°İÀ¸·Î 10°³)
+    -- ì¢Œì„ ë°ì´í„° ì¶”ê°€ (4000ì› ê°€ê²©ìœ¼ë¡œ 10ê°œ)
     FOR i IN 1..10 LOOP
         INSERT INTO seats (seat_idx, seat_start_time, seat_end_time, seat_price, waiting_user, user_idx)
         VALUES (
@@ -36,7 +43,7 @@ BEGIN
         );
     END LOOP;
 
-    -- ÁÂ¼® µ¥ÀÌÅÍ Ãß°¡ (5000¿ø °¡°İÀ¸·Î 10°³)
+    -- ì¢Œì„ ë°ì´í„° ì¶”ê°€ (5000ì› ê°€ê²©ìœ¼ë¡œ 10ê°œ)
     FOR i IN 1..10 LOOP
         INSERT INTO seats (seat_idx, seat_start_time, seat_end_time, seat_price, waiting_user, user_idx)
         VALUES (
@@ -49,7 +56,7 @@ BEGIN
         );
     END LOOP;
 
-    -- ÁÂ¼® µ¥ÀÌÅÍ Ãß°¡ (7000¿ø °¡°İÀ¸·Î 5°³)
+    -- ì¢Œì„ ë°ì´í„° ì¶”ê°€ (7000ì› ê°€ê²©ìœ¼ë¡œ 5ê°œ)
     FOR i IN 1..5 LOOP
         INSERT INTO seats (seat_idx, seat_start_time, seat_end_time, seat_price, waiting_user, user_idx)
         VALUES (
