@@ -19,9 +19,9 @@ public class Report extends JFrame {
         JPanel radioPanel = new JPanel();
         radioPanel.setLayout(new BoxLayout(radioPanel, BoxLayout.Y_AXIS));
 
-        JRadioButton option1 = new JRadioButton("불편함");
-        JRadioButton option2 = new JRadioButton("고장");
-        JRadioButton option3 = new JRadioButton("기타");
+        JRadioButton option1 = new JRadioButton("소음");
+        JRadioButton option2 = new JRadioButton("냄새");
+        JRadioButton option3 = new JRadioButton("음식물 섭취");
 
         ButtonGroup group = new ButtonGroup();
         group.add(option1);
