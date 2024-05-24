@@ -1,12 +1,17 @@
-package main;
+package StudyCafe;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class LoginScreen extends JFrame {
+    private UserDao userDao;
+    private UserVO user;
 
     public LoginScreen() {
+        userDao = new UserDao(); // UserDao 초기화
+
         setTitle("로그인");
         setSize(400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,7 +29,6 @@ public class LoginScreen extends JFrame {
         idField.setBounds(100, 200, 200, 30);
         panel.add(idField);
 
-        // idField FocusListener
         idField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -45,15 +49,14 @@ public class LoginScreen extends JFrame {
         pwField.setBounds(100, 250, 200, 30);
         panel.add(pwField);
 
-        // PWField FocusListener
-        pwField.setEchoChar((char) 0); // Initially display text
+        pwField.setEchoChar((char) 0);
         pwField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 String password = new String(pwField.getPassword());
                 if (password.equals("PW")) {
                     pwField.setText("");
-                    pwField.setEchoChar('●'); // Change to a bullet character
+                    pwField.setEchoChar('●');
                 }
             }
 
@@ -62,7 +65,7 @@ public class LoginScreen extends JFrame {
                 String password = new String(pwField.getPassword());
                 if (password.isEmpty()) {
                     pwField.setText("PW");
-                    pwField.setEchoChar((char) 0); // Display text
+                    pwField.setEchoChar((char) 0);
                 }
             }
         });
@@ -77,7 +80,6 @@ public class LoginScreen extends JFrame {
 
         add(panel);
 
-        // 확인 버튼 클릭 시 이벤트 처리
         loginButton.addActionListener(e -> {
             String idText = idField.getText();
             String pwText = new String(pwField.getPassword());
@@ -85,11 +87,24 @@ public class LoginScreen extends JFrame {
             if (idText.equals("") || idText.equals("Phone") || pwText.equals("") || pwText.equals("PW")) {
                 JOptionPane.showMessageDialog(this, "제대로 입력해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "로그인 성공", "알림", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    user = userDao.getUser(idText, pwText);
+                    if (user != null) {
+                        JOptionPane.showMessageDialog(this, "로그인 성공", "알림", JOptionPane.INFORMATION_MESSAGE);
+                        // 로그인 성공 -> 좌석 사용중인 유저 -> 좌석 테이블 조회 Seat받아오도록?
+
+                        new SeatReservation(user);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "잘못된 입력입니다.", "경고", JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "로그인 실패:" +ex.getMessage(), "경고", JOptionPane.ERROR_MESSAGE);
+                    ex.printStackTrace(); // 예외 세부 정보 출력
+                }
             }
         });
 
-        // 회원가입 버튼 클릭 시 이벤트 처리
         signUpButton.addActionListener(e -> {
             new SignUpScreen();
             dispose();

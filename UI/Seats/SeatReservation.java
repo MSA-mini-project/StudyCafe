@@ -14,7 +14,11 @@ public class SeatReservation extends JFrame {
     private int selectedSeatNumber = -1;  // 선택된 좌석 번호를 저장하기 위한 변수
     private JButton selectedSeatButton = null;  // 선택된 좌석 버튼을 저장하기 위한 변수
 
-    public SeatReservation() {
+    private static UserVO user;
+
+    public SeatReservation(UserVO user) {
+        this.user = user;
+
         JFrame frame = new JFrame("Seat Reservation System");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -173,7 +177,7 @@ public class SeatReservation extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (selectedSeatNumber != -1) {
-                    new Report(selectedSeatNumber); //Report.java 실행
+                    new Report(selectedSeatNumber,user); //Report.java 실행
                 } else {
                     JOptionPane.showMessageDialog(SeatReservation.this, "먼저 좌석을 선택해주세요.");
                 }
@@ -190,6 +194,8 @@ public class SeatReservation extends JFrame {
 
         setVisible(true); // 프레임을 보이게 설정
     }
+
+
 
     private class SeatButtonListener implements ActionListener {
         @Override
@@ -234,7 +240,7 @@ public class SeatReservation extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new SeatReservation().setVisible(true);
+                new SeatReservation(user).setVisible(true); // 사용자 정보를 전달하여 SeatReservation 객체 생성
             }
         });
     }

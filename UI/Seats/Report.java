@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Report extends JFrame {
-    public Report(int seatNumber) {
+    private static UserVO user;
+    public Report(int seatNumber,UserVO user) {
+        this.user = user;
         setTitle("Report Issue");
         setSize(400, 300);
         setLayout(new BorderLayout());
@@ -43,19 +45,19 @@ public class Report extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedOption = null;
+                int selectedOption = 0;
                 if (option1.isSelected()) {
-                    selectedOption = option1.getText();
+                    selectedOption = 1;//소음
                 } else if (option2.isSelected()) {
-                    selectedOption = option2.getText();
+                    selectedOption = 2;//냄새
                 } else if (option3.isSelected()) {
-                    selectedOption = option3.getText();
+                    selectedOption =3;//음식물섭취
                 }
 
-                if (selectedOption != null) {
+                if (selectedOption != 0) {
                     JOptionPane.showMessageDialog(Report.this, selectedOption+"항목으로 신고가 접수되었습니다.");
-
-                    //insertReport(seatNumber, selectedOption); 해서 디비로 넘어가게 해야겠다!!!
+//                        ReportVO reportVO = new ReportVO();
+//                        reportDao.insertReport(user.getUserIdx(),seatNumber, selectedOption); //해서 디비로 넘어가게 해야겠다!!!
 
                     dispose(); // Close the report window
                 } else {
@@ -68,6 +70,4 @@ public class Report extends JFrame {
 
         setVisible(true);
     }
-
-//    private void insertReport(int seatNumber, String issueType);
 }
